@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="productApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Catalog</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body ng-controller="ProductController">
+
+  <div class="header">
+    <h1>Product Catalog</h1>
+    <input type="text" ng-model="searchText" placeholder="Search products...">
+    <select ng-model="categoryFilter">
+      <option value="">All Categories</option>
+      <option ng-repeat="cat in categories">{{cat}}</option>
+    </select>
+  </div>
+
+  <div class="product-grid">
+    <div class="product-card" ng-repeat="product in products | filter:searchText | filter:{category: categoryFilter}" ng-click="openModal(product)">
+      <img ng-src="{{product.image}}" alt="{{product.name}}">
+      <h3>{{product.name}}</h3>
+      <p>₹{{product.price}}</p>
+      <p>{{product.category}}</p>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" ng-show="selectedProduct">
+    <div class="modal-content">
+      <span class="close" ng-click="closeModal()">&times;</span>
+      <img ng-src="{{selectedProduct.image}}" alt="{{selectedProduct.name}}">
+      <h2>{{selectedProduct.name}}</h2>
+      <p><strong>Category:</strong> {{selectedProduct.category}}</p>
+      <p><strong>Price:</strong> ₹{{selectedProduct.price}}</p>
+      <p>{{selectedProduct.description}}</p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
